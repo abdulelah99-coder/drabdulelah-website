@@ -1,0 +1,728 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>المقالات — د. عبدالإله</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body data-screen-label="Journal">
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" src="shared.jsx"></script>
+<script type="text/babel">
+
+const ARTICLES = [
+  {
+    id: 1,
+    featured: true,
+    category: 'تقنيات',
+    date: '٢٠٢٦/٠٣/١٢',
+    readTime: '٨ دقائق',
+    ar_title: 'تقنية الحفاظ على الجسر — ثورةٌ هادئةٌ في تجميل الأنف',
+    en_title: 'Dorsal preservation — a quiet revolution in rhinoplasty',
+    excerpt: 'لعقود طويلة، اعتمد جراحو الأنف على إزالة الجسر (الحدبة) بالمبرد والإزميل. أما المدرسة الحديثة فتقول عكس ذلك تماماً: احتفظ بكل ما يمكن الاحتفاظ به.',
+    en_excerpt: 'For decades, surgeons removed the dorsal hump with rasps and osteotomes. The modern preservation school says the opposite: keep what you can.',
+  },
+  {
+    id: 2,
+    featured: false,
+    category: 'مرضى',
+    date: '٢٠٢٦/٠٢/٠٥',
+    readTime: '٥ دقائق',
+    ar_title: 'متى يكون تجميل الأنف الإصلاحي الخيار الصحيح؟',
+    en_title: 'When is revision rhinoplasty the right choice?',
+    excerpt: 'عملية إصلاح الأنف أصعب من الأولى — وهذا معروف. لكن السؤال الأهم: هل حالتك تستدعيها فعلاً؟',
+    en_excerpt: 'Revision rhinoplasty is harder than primary — everyone knows that. But the real question: does your case actually require it?',
+  },
+  {
+    id: 3,
+    featured: false,
+    category: 'وظيفة',
+    date: '٢٠٢٦/٠١/١٨',
+    readTime: '٦ دقائق',
+    ar_title: 'التنفس والجمال معاً — الدمج بين الوظيفي والتجميلي',
+    en_title: 'Breathing and aesthetics together — combining functional and cosmetic',
+    excerpt: 'انحراف الحاجز وضيق التنفس ليسا عائقاً أمام التجميل — بل هما فرصة لمعالجة المشكلتين دفعةً واحدة.',
+    en_excerpt: 'A deviated septum and breathing obstruction are not barriers to aesthetics — they are an opportunity to address both at once.',
+  },
+  {
+    id: 4,
+    featured: false,
+    category: 'هوية',
+    date: '٢٠٢٥/١٢/٢٢',
+    readTime: '٧ دقائق',
+    ar_title: 'تجميل الأنف الإثني — الحفاظ على الهوية لا محوها',
+    en_title: 'Ethnic rhinoplasty — preserving identity, not erasing it',
+    excerpt: 'لا وجود لأنفٍ «مثالي» عالمي. كل ملامح الوجه تتكامل في سياق ثقافي وجيني. عن الجمال الذي لا يخون أصله.',
+    en_excerpt: 'There is no universal "perfect" nose. Every facial feature has cultural and genetic context. On beauty that doesn\'t betray its origin.',
+  },
+  {
+    id: 5,
+    featured: false,
+    category: 'تعافٍ',
+    date: '٢٠٢٥/١١/١٠',
+    readTime: '٤ دقائق',
+    ar_title: 'الأسابيع الأولى بعد العملية — ماذا تتوقع',
+    en_title: 'The first weeks after surgery — what to expect',
+    excerpt: 'الورم، الكدمات، الحساسية — كلها طبيعية. دليل عملي لما تمر به في الأيام السبعة إلى الأربعة عشر الأولى.',
+    en_excerpt: 'Swelling, bruising, sensitivity — all normal. A practical guide to what you will experience in the first seven to fourteen days.',
+  },
+  {
+    id: 6,
+    featured: false,
+    category: 'تقنيات',
+    date: '٢٠٢٥/١٠/٠٣',
+    readTime: '٩ دقائق',
+    ar_title: 'المحاكاة ثلاثية الأبعاد — أداةٌ للحوار لا للوعود',
+    en_title: '3D imaging — a tool for dialogue, not promises',
+    excerpt: 'التصوير ثلاثي الأبعاد قبل العملية أداةٌ قوية لتوضيح التوقعات — لكنه ليس عقداً. كيف نستخدمه في العيادة؟',
+    en_excerpt: 'Pre-operative 3D imaging is a powerful tool for aligning expectations — but it is not a contract. How we use it in our practice.',
+  },
+  {
+    id: 7,
+    featured: false,
+    category: 'مرضى',
+    date: '٢٠٢٥/٠٩/١٤',
+    readTime: '٥ دقائق',
+    ar_title: 'أسئلة يخجل المرضى من طرحها — وإجاباتها',
+    en_title: 'Questions patients are embarrassed to ask — answered',
+    excerpt: 'في غرفة الاستشارة سمعنا كل شيء تقريباً. هذه المقالة للأسئلة التي تبقى في الذهن لكن لا تُقال بصوت عالٍ.',
+    en_excerpt: 'In the consultation room, we have heard almost everything. This article is for the questions that stay in your head but are never said aloud.',
+  },
+];
+
+const CATEGORIES = ['الكل', 'تقنيات', 'مرضى', 'وظيفة', 'هوية', 'تعافٍ'];
+
+function JournalHero() {
+  return (
+    <section style={{
+      paddingTop: 160,
+      paddingBottom: 'var(--space-block)',
+      borderBottom: '1px solid var(--hairline)',
+    }}>
+      <div className="wrap">
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.2fr', gap: 80, alignItems: 'end' }}>
+          <div>
+            <span className="eyebrow">المقالات — Journal</span>
+            <h1 className="display-ar" style={{
+              fontSize: 'clamp(56px, 6.5vw, 96px)',
+              margin: '32px 0 0',
+              letterSpacing: '-0.015em',
+            }}>
+              معرفةٌ قبل
+              <br />
+              <em style={{ fontStyle: 'italic', color: 'var(--accent)' }}>القرار</em>.
+            </h1>
+            <p className="display-en" style={{ fontSize: 24, margin: '20px 0 0', fontWeight: 300 }}>
+              Knowledge before the decision.
+            </p>
+          </div>
+          <p style={{
+            fontSize: 18,
+            lineHeight: 1.8,
+            color: 'var(--fg-muted)',
+            maxWidth: 520,
+            paddingBottom: 8,
+          }}>
+            مقالاتٌ مكتوبة من داخل غرفة العمليات وغرفة الاستشارة — عن التقنيات، التوقعات،
+            والأسئلة التي لا تُسأل دائماً.
+          </p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function FeaturedArticle({ article }) {
+  return (
+    <section style={{
+      paddingBlock: 'var(--space-section)',
+      borderBottom: '1px solid var(--hairline)',
+      background: 'var(--bg-elev)',
+    }}>
+      <div className="wrap">
+        <a href="#" style={{
+          display: 'grid',
+          gridTemplateColumns: '1fr 1fr',
+          gap: 80,
+          alignItems: 'center',
+          color: 'inherit',
+        }}
+        onMouseEnter={(e) => { e.currentTarget.querySelector('.read-link').style.gap = '20px'; }}
+        onMouseLeave={(e) => { e.currentTarget.querySelector('.read-link').style.gap = '10px'; }}
+        >
+          <div className="placeholder" data-label="FEATURED ARTICLE · صورة المقالة المميزة" style={{
+            aspectRatio: '4/3',
+            width: '100%',
+          }} />
+
+          <div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 24, marginBottom: 32 }}>
+              <span style={{
+                fontFamily: 'var(--font-mono)',
+                fontSize: 10,
+                letterSpacing: '0.18em',
+                textTransform: 'uppercase',
+                color: 'var(--bg)',
+                background: 'var(--accent)',
+                padding: '5px 10px',
+              }}>مميّز</span>
+              <span style={{
+                fontFamily: 'var(--font-mono)',
+                fontSize: 10,
+                letterSpacing: '0.18em',
+                textTransform: 'uppercase',
+                color: 'var(--fg-soft)',
+              }}>{article.category}</span>
+            </div>
+
+            <h2 className="display-ar" style={{
+              fontSize: 'clamp(32px, 3.5vw, 52px)',
+              margin: 0,
+              letterSpacing: '-0.015em',
+              lineHeight: 1.2,
+            }}>
+              {article.ar_title}
+            </h2>
+            <p className="display-en" style={{ fontSize: 18, marginTop: 16, fontWeight: 300 }}>
+              {article.en_title}
+            </p>
+
+            <p style={{
+              marginTop: 28,
+              fontSize: 17,
+              lineHeight: 1.75,
+              color: 'var(--fg-muted)',
+            }}>
+              {article.excerpt}
+            </p>
+
+            <div style={{
+              marginTop: 48,
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              paddingTop: 24,
+              borderTop: '1px solid var(--hairline)',
+            }}>
+              <div style={{
+                display: 'flex',
+                gap: 24,
+                fontFamily: 'var(--font-mono)',
+                fontSize: 11,
+                letterSpacing: '0.18em',
+                textTransform: 'uppercase',
+                color: 'var(--fg-soft)',
+              }}>
+                <span>{article.date}</span>
+                <span>{article.readTime} قراءة</span>
+              </div>
+              <div className="read-link" style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 10,
+                fontFamily: 'var(--font-mono)',
+                fontSize: 11,
+                letterSpacing: '0.18em',
+                textTransform: 'uppercase',
+                color: 'var(--fg)',
+                transition: 'gap .25s',
+              }}>
+                اقرأ المقالة
+                <span style={{ width: 20, height: 1, background: 'currentColor', display: 'inline-block' }} />
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+    </section>
+  );
+}
+
+function ArticleCard({ article }) {
+  const [hovered, setHovered] = React.useState(false);
+  return (
+    <a href="#"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        color: 'inherit',
+        background: hovered ? 'var(--bg-elev)' : 'var(--bg)',
+        transition: 'background .25s',
+        border: '1px solid var(--hairline)',
+        borderTop: 'none',
+      }}>
+      <div className="placeholder" data-label={`ARTICLE · ${article.category}`} style={{
+        aspectRatio: '3/2',
+        width: '100%',
+      }} />
+      <div style={{ padding: '28px 32px 32px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
+          <span style={{
+            fontFamily: 'var(--font-mono)',
+            fontSize: 10,
+            letterSpacing: '0.18em',
+            textTransform: 'uppercase',
+            color: 'var(--fg-soft)',
+          }}>{article.category}</span>
+          <span style={{
+            fontFamily: 'var(--font-mono)',
+            fontSize: 10,
+            letterSpacing: '0.18em',
+            textTransform: 'uppercase',
+            color: 'var(--fg-soft)',
+          }}>{article.readTime}</span>
+        </div>
+        <h3 className="display-ar" style={{
+          fontSize: 24,
+          margin: 0,
+          lineHeight: 1.3,
+          fontWeight: 400,
+        }}>
+          {article.ar_title}
+        </h3>
+        <p className="display-en" style={{ fontSize: 14, marginTop: 10, lineHeight: 1.5 }}>
+          {article.en_title}
+        </p>
+        <p style={{
+          marginTop: 16,
+          fontSize: 15,
+          lineHeight: 1.7,
+          color: 'var(--fg-muted)',
+        }}>
+          {article.excerpt}
+        </p>
+        <div style={{
+          marginTop: 28,
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          paddingTop: 20,
+          borderTop: '1px solid var(--hairline)',
+        }}>
+          <span style={{
+            fontFamily: 'var(--font-mono)',
+            fontSize: 10,
+            letterSpacing: '0.14em',
+            color: 'var(--fg-soft)',
+          }}>{article.date}</span>
+          <span style={{
+            fontFamily: 'var(--font-mono)',
+            fontSize: 10,
+            letterSpacing: '0.18em',
+            textTransform: 'uppercase',
+            color: 'var(--fg)',
+          }}>اقرأ ←</span>
+        </div>
+      </div>
+    </a>
+  );
+}
+
+function ArticleRow({ article }) {
+  const [hovered, setHovered] = React.useState(false);
+  return (
+    <a href="#"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        display: 'grid',
+        gridTemplateColumns: '240px 1fr auto',
+        gap: 40,
+        alignItems: 'center',
+        padding: '28px 0',
+        borderBottom: '1px solid var(--hairline)',
+        color: 'inherit',
+        paddingInlineStart: hovered ? 16 : 0,
+        transition: 'padding .2s',
+      }}>
+      <div className="placeholder" data-label={`${article.category}`} style={{ aspectRatio: '3/2' }} />
+      <div>
+        <div style={{ display: 'flex', gap: 20, marginBottom: 12, alignItems: 'center' }}>
+          <span style={{
+            fontFamily: 'var(--font-mono)',
+            fontSize: 10,
+            letterSpacing: '0.18em',
+            textTransform: 'uppercase',
+            color: 'var(--fg-soft)',
+          }}>{article.category}</span>
+          <span style={{ width: 1, height: 12, background: 'var(--hairline-strong)' }} />
+          <span style={{
+            fontFamily: 'var(--font-mono)',
+            fontSize: 10,
+            letterSpacing: '0.18em',
+            textTransform: 'uppercase',
+            color: 'var(--fg-soft)',
+          }}>{article.date}</span>
+        </div>
+        <h3 className="display-ar" style={{ fontSize: 26, margin: 0, lineHeight: 1.3 }}>
+          {article.ar_title}
+        </h3>
+        <p className="display-en" style={{ fontSize: 15, marginTop: 8 }}>
+          {article.en_title}
+        </p>
+        <p style={{ marginTop: 12, fontSize: 15, lineHeight: 1.65, color: 'var(--fg-muted)', maxWidth: 640 }}>
+          {article.excerpt}
+        </p>
+      </div>
+      <div style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: 8,
+        fontFamily: 'var(--font-mono)',
+        fontSize: 10,
+        letterSpacing: '0.18em',
+        textTransform: 'uppercase',
+        color: 'var(--fg-soft)',
+        whiteSpace: 'nowrap',
+      }}>
+        <span>{article.readTime}</span>
+        <span style={{ width: 1, height: 20, background: 'var(--hairline-strong)' }} />
+        <span style={{ color: 'var(--fg)', fontSize: 16 }}>←</span>
+      </div>
+    </a>
+  );
+}
+
+function ArticleGrid() {
+  const [activeCategory, setActiveCategory] = React.useState('الكل');
+  const [view, setView] = React.useState('grid');
+
+  const filtered = activeCategory === 'الكل'
+    ? ARTICLES.filter(a => !a.featured)
+    : ARTICLES.filter(a => !a.featured && a.category === activeCategory);
+
+  return (
+    <section style={{ paddingBlock: 'var(--space-section)' }}>
+      <div className="wrap">
+
+        {/* Header row */}
+        <div style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'flex-end',
+          marginBottom: 56,
+          gap: 40,
+        }}>
+          <div>
+            <span className="eyebrow">الأرشيف — Archive</span>
+            <h2 className="display-ar" style={{
+              fontSize: 'clamp(36px, 4vw, 52px)',
+              margin: '28px 0 0',
+              letterSpacing: '-0.015em',
+            }}>
+              جميع المقالات.
+            </h2>
+          </div>
+
+          {/* View toggle */}
+          <div style={{
+            display: 'flex',
+            border: '1px solid var(--hairline-strong)',
+          }}>
+            {[['grid', '⊞'], ['list', '≡']].map(([v, icon]) => (
+              <button key={v} onClick={() => setView(v)} style={{
+                padding: '10px 18px',
+                background: view === v ? 'var(--fg)' : 'transparent',
+                color: view === v ? 'var(--bg)' : 'var(--fg-soft)',
+                border: 'none',
+                cursor: 'pointer',
+                fontFamily: 'var(--font-mono)',
+                fontSize: 14,
+                transition: 'background .2s, color .2s',
+              }}>{icon}</button>
+            ))}
+          </div>
+        </div>
+
+        {/* Category filter */}
+        <div style={{
+          display: 'flex',
+          gap: 0,
+          marginBottom: 48,
+          borderBottom: '1px solid var(--hairline)',
+          overflowX: 'auto',
+        }}>
+          {CATEGORIES.map((cat) => (
+            <button key={cat} onClick={() => setActiveCategory(cat)} style={{
+              padding: '14px 24px',
+              background: 'transparent',
+              border: 'none',
+              borderBottom: activeCategory === cat ? '2px solid var(--accent)' : '2px solid transparent',
+              color: activeCategory === cat ? 'var(--fg)' : 'var(--fg-muted)',
+              fontFamily: 'var(--font-body-ar)',
+              fontSize: 14,
+              cursor: 'pointer',
+              whiteSpace: 'nowrap',
+              transition: 'color .2s, border-color .2s',
+              marginBottom: -1,
+            }}>
+              {cat}
+            </button>
+          ))}
+        </div>
+
+        {/* Articles */}
+        {view === 'grid' ? (
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(3, 1fr)',
+            borderTop: '1px solid var(--hairline)',
+          }}>
+            {filtered.map((article) => (
+              <ArticleCard key={article.id} article={article} />
+            ))}
+          </div>
+        ) : (
+          <div style={{ borderTop: '1px solid var(--hairline-strong)' }}>
+            {filtered.map((article) => (
+              <ArticleRow key={article.id} article={article} />
+            ))}
+          </div>
+        )}
+
+        {filtered.length === 0 && (
+          <div style={{
+            textAlign: 'center',
+            padding: '80px 0',
+            color: 'var(--fg-muted)',
+            fontFamily: 'var(--font-display-ar)',
+            fontSize: 24,
+          }}>
+            لا مقالات في هذا التصنيف حتى الآن.
+          </div>
+        )}
+
+      </div>
+    </section>
+  );
+}
+
+function FaqTeaser() {
+  const faqs = [
+    { q: 'ما هو الفرق بين تجميل الأنف الأولي والإصلاحي؟', a: 'الأولي هو العملية الأولى للمريض، بينما الإصلاحي يستهدف تصحيح نتيجة عملية سابقة. الإصلاحي أعقد تقنياً لأن النسيج يكون قد مرّ بتغيرات في البنية.' },
+    { q: 'كم يستغرق اكتمال النتيجة النهائية؟', a: 'يتضح ٧٠٪ من الشكل النهائي بعد ثلاثة أشهر، لكن الاكتمال الحقيقي يحتاج من سنة إلى سنة ونصف — خاصةً في الطرف ورأس الأنف.' },
+    { q: 'هل يمكن الجمع بين التجميل وعلاج الجيوب الأنفية؟', a: 'نعم، في أغلب الحالات يمكن إجراء العمليتين في جلسة واحدة، مما يعني تخديراً واحداً وفترة تعافٍ واحدة.' },
+    { q: 'هل تجميل الأنف الإثني يغيّر الشكل الطبيعي للوجه؟', a: 'الهدف من التجميل الإثني هو تنقية الملامح لا تغييرها. النتيجة يجب أن تبدو كأنها أنتِ دائماً — لكن بنسخة أكثر توازناً.' },
+  ];
+
+  const [open, setOpen] = React.useState(null);
+
+  return (
+    <section style={{
+      paddingBlock: 'var(--space-section)',
+      borderTop: '1px solid var(--hairline)',
+      background: 'var(--bg-elev)',
+    }}>
+      <div className="wrap">
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.5fr', gap: 80 }}>
+          <div style={{ position: 'sticky', top: 120, alignSelf: 'start' }}>
+            <span className="eyebrow">الأسئلة الشائعة — FAQ</span>
+            <h2 className="display-ar" style={{
+              fontSize: 'clamp(36px, 4vw, 56px)',
+              margin: '32px 0 0',
+              letterSpacing: '-0.015em',
+            }}>
+              أسئلةٌ تُسأل
+              <br />
+              <em style={{ fontStyle: 'italic', color: 'var(--accent)' }}>دائماً</em>.
+            </h2>
+            <p style={{ marginTop: 24, fontSize: 16, color: 'var(--fg-muted)', lineHeight: 1.7 }}>
+              إجاباتٌ مباشرة من الاستشارة اليومية.
+            </p>
+            <a href="index.html#contact" className="btn ghost" style={{ marginTop: 40 }}>
+              <span>اطرح سؤالك في الاستشارة</span>
+              <span className="arrow" />
+            </a>
+          </div>
+          <div style={{ borderTop: '1px solid var(--hairline-strong)' }}>
+            {faqs.map((faq, i) => (
+              <div key={i} style={{ borderBottom: '1px solid var(--hairline)' }}>
+                <button
+                  onClick={() => setOpen(open === i ? null : i)}
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    width: '100%',
+                    textAlign: 'right',
+                    padding: '28px 0',
+                    background: 'transparent',
+                    border: 'none',
+                    cursor: 'pointer',
+                    gap: 24,
+                    color: 'inherit',
+                    fontFamily: 'inherit',
+                  }}>
+                  <div className="display-ar" style={{ fontSize: 22, fontWeight: 400, lineHeight: 1.3 }}>
+                    {faq.q}
+                  </div>
+                  <span style={{
+                    fontSize: 20,
+                    color: 'var(--fg-soft)',
+                    flexShrink: 0,
+                    transition: 'transform .25s',
+                    transform: open === i ? 'rotate(45deg)' : 'none',
+                  }}>+</span>
+                </button>
+                {open === i && (
+                  <p style={{
+                    fontSize: 16,
+                    lineHeight: 1.75,
+                    color: 'var(--fg-muted)',
+                    margin: '0 0 28px',
+                    paddingInlineEnd: 48,
+                    animation: 'fadeDown .3s ease',
+                  }}>
+                    <style>{`@keyframes fadeDown { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }`}</style>
+                    {faq.a}
+                  </p>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function NewsletterCTA() {
+  const [email, setEmail] = React.useState('');
+  const [sent, setSent] = React.useState(false);
+  return (
+    <section style={{
+      paddingBlock: 'var(--space-section)',
+      borderTop: '1px solid var(--hairline)',
+      background: 'var(--bg-deep)',
+    }}>
+      <div className="wrap" style={{ textAlign: 'center' }}>
+        <span className="eyebrow" style={{ display: 'inline-flex', justifyContent: 'center' }}>
+          متابعة — Stay updated
+        </span>
+        <h2 className="display-ar" style={{
+          fontSize: 'clamp(40px, 5vw, 72px)',
+          margin: '32px auto 0',
+          maxWidth: '18ch',
+          letterSpacing: '-0.015em',
+        }}>
+          مقالٌ جديدٌ كلّ شهرين.
+        </h2>
+        <p style={{
+          marginTop: 20,
+          fontSize: 16,
+          color: 'var(--fg-muted)',
+          maxWidth: 480,
+          marginInline: 'auto',
+          lineHeight: 1.7,
+        }}>
+          بدون إعلانات، بدون ضغط. فقط محتوىً طبيّ موثوق يصلك مباشرةً.
+        </p>
+
+        {sent ? (
+          <div style={{ marginTop: 48 }}>
+            <div style={{
+              width: 56, height: 56, marginInline: 'auto',
+              border: '1px solid var(--accent)', borderRadius: '50%',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              color: 'var(--accent)', marginBottom: 20,
+            }}>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+            </div>
+            <div className="display-ar" style={{ fontSize: 22 }}>تمّ الاشتراك.</div>
+          </div>
+        ) : (
+          <div style={{
+            display: 'flex',
+            gap: 0,
+            maxWidth: 480,
+            marginInline: 'auto',
+            marginTop: 48,
+            border: '1px solid var(--hairline-strong)',
+            background: 'var(--bg)',
+          }}>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="بريدك الإلكتروني"
+              style={{
+                flex: 1,
+                padding: '16px 20px',
+                border: 'none',
+                background: 'transparent',
+                fontFamily: 'var(--font-body-ar)',
+                fontSize: 15,
+                color: 'var(--fg)',
+                outline: 'none',
+              }}
+            />
+            <button
+              onClick={() => email && setSent(true)}
+              className="btn"
+              style={{ padding: '16px 24px', flexShrink: 0, border: 'none' }}>
+              <span>اشترك</span>
+              <span className="arrow" />
+            </button>
+          </div>
+        )}
+
+        <p style={{
+          marginTop: 20,
+          fontFamily: 'var(--font-mono)',
+          fontSize: 10,
+          letterSpacing: '0.16em',
+          textTransform: 'uppercase',
+          color: 'var(--fg-soft)',
+        }}>
+          بإمكانك إلغاء الاشتراك في أي وقت · لن نشارك بريدك
+        </p>
+      </div>
+    </section>
+  );
+}
+
+function App() {
+  React.useEffect(() => {
+    const obs = new IntersectionObserver(
+      (es) => es.forEach((e) => { if (e.isIntersecting) e.target.classList.add('in'); }),
+      { rootMargin: '-10% 0px -10% 0px' }
+    );
+    document.querySelectorAll('section').forEach((s) => {
+      s.classList.add('reveal');
+      obs.observe(s);
+    });
+    return () => obs.disconnect();
+  }, []);
+
+  const featured = ARTICLES.find(a => a.featured);
+
+  return (
+    <>
+      <SiteNav current="journal" />
+      <main>
+        <JournalHero />
+        <FeaturedArticle article={featured} />
+        <ArticleGrid />
+        <FaqTeaser />
+        <NewsletterCTA />
+      </main>
+      <SiteFooter />
+    </>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>
