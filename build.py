@@ -144,7 +144,7 @@ def head(lang, slug, title, desc, extra_ld=()):
 <meta property="og:locale:alternate" content="{'en_US' if lang=='ar' else 'ar_SA'}">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#096174">
-<link rel="icon" href="{asset(cur,'favicon.svg')}" type="image/svg+xml">
+<link rel="icon" href="{asset(cur,'favicon.png')}" type="image/png" sizes="64x64">
 <link rel="apple-touch-icon" href="{asset(cur,'apple-touch-icon.png')}">
 <link rel="preload" href="{asset(cur,'fonts/'+preload)}" as="font" type="font/woff2" crossorigin>
 <style>{font_faces(cur)}</style>
@@ -177,7 +177,7 @@ def header(lang, slug):
 <header class="site-head">
   <div class="wrap head-row">
     <a class="brand" href="{rel(cur, page_dir(lang, ''))}">
-      <img src="{asset(cur,'favicon.svg')}" alt="" width="36" height="36">
+      <img src="{asset(cur,'logo-tile.png')}" alt="" width="44" height="44">
       <span><strong>{esc(name)}</strong><small>{esc(sub)}</small></span>
     </a>
     <nav class="nav-desk" aria-label="{u['menu']}"><ul>{main_links}</ul></nav>
@@ -381,7 +381,7 @@ if(navigator.clipboard&&navigator.clipboard.writeText){{navigator.clipboard.writ
 
 def page_404():
     return f"""<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>الصفحة غير موجودة | Page not found</title><meta name="robots" content="noindex"><link rel="icon" href="/assets/favicon.svg">
+<title>الصفحة غير موجودة | Page not found</title><meta name="robots" content="noindex"><link rel="icon" href="/assets/favicon.png">
 <link rel="stylesheet" href="/assets/site.css"></head><body><main class="wrap page-top nf">
 <h1>الصفحة غير موجودة</h1><p class="lede">ربما تغيّر الرابط. <a href="/">العودة إلى الرئيسية</a></p>
 <p class="lede" dir="ltr" lang="en">This page doesn't exist. <a href="/en/">Go to the homepage</a></p></main></body></html>"""
@@ -401,7 +401,6 @@ def build():
             dst = OUT / "assets" / f.relative_to(ROOT / "assets")
             dst.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(f, dst)
-    write("assets/favicon.svg", FAVICON)
 
     slugs = [""] + ["about"] + PROCEDURES + ["contact"]
     for lang in LANGS:
