@@ -41,7 +41,7 @@ LOCATIONS = [
 # Board certifications, fellowships, memberships. One entry per line, both languages.
 # Leave empty and the credentials block is hidden.
 CREDENTIALS = [
-    # {"ar": "البورد السعودي في الأنف والأذن والحنجرة", "en": "Saudi Board in Otolaryngology – Head & Neck Surgery"},
+    {"ar": "البورد السعودي في جراحة الأنف والأذن والحنجرة — مستشفى الملك فيصل التخصصي ومركز الأبحاث", "en": "Saudi Board in Otolaryngology – Head & Neck Surgery, King Faisal Specialist Hospital & Research Centre"},
 ]
 
 # Social profiles (full URLs). These also go into Google's structured data.
