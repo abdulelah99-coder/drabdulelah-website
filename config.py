@@ -20,7 +20,11 @@ NAME_EN_SHORT = "Dr. Abdulelah Alqahtani"
 TITLE_AR = "استشاري الأنف والأذن والحنجرة وجراحة الرأس والرقبة وجراحة تجميل الوجه"
 TITLE_EN = "Consultant ENT, Head & Neck and Facial Plastic Surgeon"
 
-# Contact. WhatsApp: digits only, with country code, no + (e.g. 9665XXXXXXXX)
+# Contact.
+# WHATSAPP_LINK: the coordinator's WhatsApp Business link (from the Instagram bio).
+# WHATSAPP: optional plain number, digits only with country code (e.g. 9665XXXXXXXX).
+#   When set, the booking form can pre-fill the patient's details into the chat.
+WHATSAPP_LINK = "https://wa.me/message/KRAY63CJ3ZQPE1"
 WHATSAPP = ""
 PHONE = ""          # shown as written, e.g. "+966 5X XXX XXXX"
 EMAIL = ""
@@ -30,8 +34,6 @@ SCFHS_NO = ""
 
 # Where patients can see you. Add "maps" with a Google Maps link when ready.
 LOCATIONS = [
-    {"ar": "مستشفى الحمادي — فرع النزهة", "en": "Al-Hammadi Hospital — Al-Nuzha branch",
-     "city_ar": "الرياض", "city_en": "Riyadh", "maps": ""},
     {"ar": "مركز إيف للتجميل", "en": "Eve Aesthetic Center",
      "city_ar": "الرياض", "city_en": "Riyadh", "maps": ""},
 ]

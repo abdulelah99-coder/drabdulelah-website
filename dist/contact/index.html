@@ -53,29 +53,32 @@
     </div>
   </div>
 </header>
-<main id="main"><div class="wrap page-top"><nav class="crumbs" aria-label="breadcrumb"><a href="../">الرئيسية</a><span aria-hidden="true">/</span><span aria-current="page">التواصل والحجز</span></nav><h1>التواصل والحجز</h1><p class="lede">أسرع طريقة للحجز عبر واتساب. أرسل اسمك والعيادة التي تفضّلها وسبب الزيارة باختصار، وسنعود إليك لتأكيد الموعد.</p></div>
+<main id="main"><div class="wrap page-top"><nav class="crumbs" aria-label="breadcrumb"><a href="../">الرئيسية</a><span aria-hidden="true">/</span><span aria-current="page">التواصل والحجز</span></nav><h1>التواصل والحجز</h1><p class="lede">أسرع طريقة للحجز عبر واتساب مع منسّقة العيادة. أرسل اسمك وسبب الزيارة باختصار، وستعود إليك لتأكيد الموعد.</p></div>
 <div class="wrap contact-grid">
-  <form class="book" id="book" data-wa="">
+  <form class="book" id="book" data-wa="" data-link="https://wa.me/message/KRAY63CJ3ZQPE1">
   <h2>أرسل طلب حجز</h2>
   <label for="f-name">الاسم</label><input id="f-name" name="name" required autocomplete="name">
   <label for="f-phone">رقم الجوال</label><input id="f-phone" name="phone" type="tel" inputmode="tel" required autocomplete="tel" dir="ltr">
   <label for="f-reason">سبب الزيارة</label><select id="f-reason" name="reason"><option>تجميل الأنف</option><option>تجميل الأنف الثانوي</option><option>انسداد الأنف أو انحراف الحاجز</option><option>الجيوب الأنفية</option><option>استشارة أنف وأذن وحنجرة عامة</option></select>
-  <label for="f-loc">العيادة المفضّلة</label><select id="f-loc" name="loc"><option>مستشفى الحمادي — فرع النزهة</option><option>مركز إيف للتجميل</option></select>
+  <label for="f-loc">العيادة المفضّلة</label><select id="f-loc" name="loc"><option>مركز إيف للتجميل</option></select>
   <label for="f-note">ملاحظات (اختياري)</label><textarea id="f-note" name="note" rows="3"></textarea>
-  <button class="btn btn-block" type="submit" disabled>أرسل عبر واتساب</button>
-  <p class="small muted">الحجز الإلكتروني متاح قريبًا.</p>
-  <p class="small muted">لا يحفظ هذا الموقع أي بيانات. يفتح النموذج محادثة واتساب برسالتك فقط. لا ترسل معلومات طبية حساسة قبل الموعد.</p>
+  <button class="btn btn-block" type="submit">أرسل عبر واتساب</button>
+  <p class="small copied" id="copied" hidden>تم نسخ بياناتك، الصقها في محادثة واتساب.</p>
+  
+  <p class="small muted">لا يحفظ هذا الموقع أي بيانات. يفتح الزر محادثة واتساب مع المنسّقة، ويُنسخ ما كتبته لتلصقه في الرسالة. لا ترسل معلومات طبية حساسة قبل الموعد.</p>
 </form>
 <script>
 (function(){var f=document.getElementById('book'),L={"f_name": "الاسم", "f_phone": "رقم الجوال", "f_reason": "سبب الزيارة", "f_loc": "العيادة المفضّلة", "f_note": "ملاحظات (اختياري)", "wa_intro": "السلام عليكم، أرغب في حجز استشارة."};
-f.addEventListener('submit',function(e){e.preventDefault();var n=f.dataset.wa;if(!n)return;
+f.addEventListener('submit',function(e){e.preventDefault();var n=f.dataset.wa,k=f.dataset.link;if(!n&&!k)return;
 var g=function(id){return document.getElementById(id).value.trim()};
 var t=L.wa_intro+'\n'+L.f_name+': '+g('f-name')+'\n'+L.f_phone+': '+g('f-phone')+'\n'+L.f_reason+': '+g('f-reason')+'\n'+L.f_loc+': '+g('f-loc')+(g('f-note')?'\n'+L.f_note+': '+g('f-note'):'');
-location.href='https://wa.me/'+n+'?text='+encodeURIComponent(t);});})();
+if(n){location.href='https://wa.me/'+n+'?text='+encodeURIComponent(t);return;}
+var go=function(){window.open(k,'_blank','noopener')||(location.href=k)};
+if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(function(){document.getElementById('copied').hidden=false;setTimeout(go,900)},go)}else go();});})();
 </script>
   <div class="contact-side">
-    
-    <h2>أماكن العيادة</h2><ul class="locs"><li><strong>مستشفى الحمادي — فرع النزهة</strong><br><span class="muted">الرياض</span></li><li><strong>مركز إيف للتجميل</strong><br><span class="muted">الرياض</span></li></ul>
+    <ul class="direct"><li><span class="k">واتساب</span><a href="https://wa.me/message/KRAY63CJ3ZQPE1" rel="noopener">منسّقة العيادة</a></li></ul>
+    <h2>أماكن العيادة</h2><ul class="locs"><li><strong>مركز إيف للتجميل</strong><br><span class="muted">الرياض</span></li></ul>
     <p class="note">للحالات الطارئة، مثل النزيف الشديد أو صعوبة التنفّس، توجّه إلى أقرب قسم طوارئ أو اتصل بالرقم 997.</p>
   </div>
 </div></main>
@@ -83,8 +86,8 @@ location.href='https://wa.me/'+n+'?text='+encodeURIComponent(t);});})();
   <div class="wrap foot-grid">
     <div><p class="foot-name">د. عبدالإله مسفر القحطاني</p><p class="muted">استشاري الأنف والأذن والحنجرة وجراحة الرأس والرقبة وجراحة تجميل الوجه</p></div>
     <div><h2>العمليات</h2><ul><li><a href="../rhinoplasty/">تجميل الأنف</a></li><li><a href="../revision-rhinoplasty/">تجميل الأنف الثانوي</a></li><li><a href="../septoplasty/">انحراف الحاجز والقرينات</a></li><li><a href="../sinus-surgery/">الجيوب الأنفية بالمنظار</a></li></ul></div>
-    <div><h2>أماكن العيادة</h2><ul><li>مستشفى الحمادي — فرع النزهة<br><span class="muted">الرياض</span></li><li>مركز إيف للتجميل<br><span class="muted">الرياض</span></li></ul></div>
-    <div><h2>التواصل</h2><ul><li><a href="./">التواصل والحجز</a></li><li><a href="https://www.instagram.com/drabdulelah.q/" rel="noopener me">Instagram</a></li></ul></div>
+    <div><h2>أماكن العيادة</h2><ul><li>مركز إيف للتجميل<br><span class="muted">الرياض</span></li></ul></div>
+    <div><h2>التواصل</h2><ul><li><a href="https://wa.me/message/KRAY63CJ3ZQPE1" rel="noopener">واتساب</a></li><li><a href="./">التواصل والحجز</a></li><li><a href="https://www.instagram.com/drabdulelah.q/" rel="noopener me">Instagram</a></li></ul></div>
   </div>
   <div class="wrap foot-base"><p>المحتوى في هذا الموقع للتثقيف العام ولا يغني عن الاستشارة الطبية. تختلف النتائج من شخص لآخر.</p><p>© 2026 د. عبدالإله مسفر القحطاني. جميع الحقوق محفوظة.</p></div>
 </footer>

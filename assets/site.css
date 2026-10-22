@@ -215,3 +215,5 @@ article.prose{padding-bottom:clamp(2.5rem,6vw,4rem)}
 @media (max-width:860px){.foot-grid{grid-template-columns:1fr 1fr}}
 @media (max-width:480px){.foot-grid{grid-template-columns:1fr}}
 .nf{min-height:60vh;align-content:center}
+.copied{color:var(--teal-deep);background:var(--gold-wash);padding:.6rem .8rem;border-radius:var(--r)}
+[hidden]{display:none!important}

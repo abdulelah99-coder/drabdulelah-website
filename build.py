@@ -45,10 +45,11 @@ def asset(cur, name):
     return rel(cur, "assets/" + name, is_page=False)
 
 def wa_link(lang, text=""):
-    if not C.WHATSAPP:
-        return None
+    """Plain number wins (lets us pre-fill the message); otherwise the business link."""
     from urllib.parse import quote
-    return f"https://wa.me/{C.WHATSAPP}" + (f"?text={quote(text)}" if text else "")
+    if C.WHATSAPP:
+        return f"https://wa.me/{C.WHATSAPP}" + (f"?text={quote(text)}" if text else "")
+    return getattr(C, "WHATSAPP_LINK", "") or None
 
 # ------------------------------------------------------------------ art
 NOSE_SVG = """<svg class="sketch" viewBox="10 20 290 490" role="img" aria-label="{label}" xmlns="http://www.w3.org/2000/svg">
@@ -200,7 +201,7 @@ def footer(lang, slug):
         + (f' · <a href="{esc(l["maps"])}" rel="noopener">{u["map"]}</a>' if l.get("maps") else "") + "</li>"
         for l in C.LOCATIONS)
     contact = []
-    if C.WHATSAPP: contact.append(f'<li><a href="{wa_link(lang)}" rel="noopener">{u["whatsapp"]}</a></li>')
+    if wa_link(lang): contact.append(f'<li><a href="{wa_link(lang)}" rel="noopener">{u["whatsapp"]}</a></li>')
     if C.PHONE: contact.append(f'<li><a href="tel:{re.sub(r"[^0-9+]", "", C.PHONE)}" dir="ltr">{esc(C.PHONE)}</a></li>')
     if C.EMAIL: contact.append(f'<li><a href="mailto:{esc(C.EMAIL)}">{esc(C.EMAIL)}</a></li>')
     contact.append(f'<li><a href="{rel(cur, page_dir(lang,"contact"))}">{u["nav_contact"]}</a></li>')
@@ -338,28 +339,33 @@ def page_contact(lang):
     locs_opt = "".join(f"<option>{esc(l[lang])}</option>" for l in C.LOCATIONS)
     direct = []
     if C.WHATSAPP: direct.append(f'<li><span class="k">{u["whatsapp"]}</span><a href="{wa_link(lang, c["wa_intro"])}" rel="noopener" dir="ltr">+{C.WHATSAPP}</a></li>')
+    elif wa_link(lang): direct.append(f'<li><span class="k">{u["whatsapp"]}</span><a href="{wa_link(lang)}" rel="noopener">{c["wa_coord"]}</a></li>')
     if C.PHONE: direct.append(f'<li><span class="k">{"الهاتف" if lang=="ar" else "Phone"}</span><a href="tel:{re.sub(r"[^0-9+]", "", C.PHONE)}" dir="ltr">{esc(C.PHONE)}</a></li>')
     if C.EMAIL: direct.append(f'<li><span class="k">{"البريد" if lang=="ar" else "Email"}</span><a href="mailto:{esc(C.EMAIL)}">{esc(C.EMAIL)}</a></li>')
     locs = "".join(f'<li><strong>{esc(l[lang])}</strong><br><span class="muted">{esc(l["city_"+lang])}</span>'
                    + (f'<br><a href="{esc(l["maps"])}" rel="noopener">{u["map"]}</a>' if l.get("maps") else "") + "</li>" for l in C.LOCATIONS)
     labels = json.dumps({k: c[k] for k in ["f_name", "f_phone", "f_reason", "f_loc", "f_note", "wa_intro"]}, ensure_ascii=False)
-    form = f"""<form class="book" id="book" data-wa="{C.WHATSAPP}">
+    wa_any = wa_link(lang)
+    form = f"""<form class="book" id="book" data-wa="{C.WHATSAPP}" data-link="{esc(getattr(C, 'WHATSAPP_LINK', ''))}">
   <h2>{c['form_h']}</h2>
   <label for="f-name">{c['f_name']}</label><input id="f-name" name="name" required autocomplete="name">
   <label for="f-phone">{c['f_phone']}</label><input id="f-phone" name="phone" type="tel" inputmode="tel" required autocomplete="tel" dir="ltr">
   <label for="f-reason">{c['f_reason']}</label><select id="f-reason" name="reason">{reasons}</select>
   <label for="f-loc">{c['f_loc']}</label><select id="f-loc" name="loc">{locs_opt}</select>
   <label for="f-note">{c['f_note']}</label><textarea id="f-note" name="note" rows="3"></textarea>
-  <button class="btn btn-block" type="submit"{'' if C.WHATSAPP else ' disabled'}>{c['f_send']}</button>
-  {'' if C.WHATSAPP else '<p class="small muted">' + ('الحجز الإلكتروني متاح قريبًا.' if lang == 'ar' else 'Online booking is opening soon.') + '</p>'}
+  <button class="btn btn-block" type="submit"{'' if wa_any else ' disabled'}>{c['f_send']}</button>
+  <p class="small copied" id="copied" hidden>{c['copied']}</p>
+  {'' if wa_any else '<p class="small muted">' + ('الحجز الإلكتروني متاح قريبًا.' if lang == 'ar' else 'Online booking is opening soon.') + '</p>'}
   <p class="small muted">{c['privacy']}</p>
 </form>
 <script>
 (function(){{var f=document.getElementById('book'),L={labels};
-f.addEventListener('submit',function(e){{e.preventDefault();var n=f.dataset.wa;if(!n)return;
+f.addEventListener('submit',function(e){{e.preventDefault();var n=f.dataset.wa,k=f.dataset.link;if(!n&&!k)return;
 var g=function(id){{return document.getElementById(id).value.trim()}};
 var t=L.wa_intro+'\\n'+L.f_name+': '+g('f-name')+'\\n'+L.f_phone+': '+g('f-phone')+'\\n'+L.f_reason+': '+g('f-reason')+'\\n'+L.f_loc+': '+g('f-loc')+(g('f-note')?'\\n'+L.f_note+': '+g('f-note'):'');
-location.href='https://wa.me/'+n+'?text='+encodeURIComponent(t);}});}})();
+if(n){{location.href='https://wa.me/'+n+'?text='+encodeURIComponent(t);return;}}
+var go=function(){{window.open(k,'_blank','noopener')||(location.href=k)}};
+if(navigator.clipboard&&navigator.clipboard.writeText){{navigator.clipboard.writeText(t).then(function(){{document.getElementById('copied').hidden=false;setTimeout(go,900)}},go)}}else go();}});}})();
 </script>"""
     body = f"""<div class="wrap page-top">{crumbs}<h1>{c['h1']}</h1><p class="lede">{c['lede']}</p></div>
 <div class="wrap contact-grid">
