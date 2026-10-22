@@ -273,8 +273,9 @@ def page_home(lang):
     journey = "".join(f'<li><h3>{esc(t)}</h3><p>{esc(p)}</p></li>' for t, p in h["journey"])
     sketch_note = "الزوايا المرجعية تقريبية وتختلف بين الأشخاص" if lang == "ar" else "Reference angles are approximate and vary between people"
     figcap = "" if C.PORTRAIT else f"<figcaption>{sketch_note}</figcaption>"
+    art = f'<figure class="hero-art">{hero_art(lang, cur)}{figcap}</figure>' if C.PORTRAIT else ""
     body = f"""
-<section class="hero"><div class="wrap hero-grid">
+<section class="hero"><div class="wrap hero-grid{'' if C.PORTRAIT else ' hero-solo'}">
   <div class="hero-text">
     <p class="eyebrow">{esc(h['eyebrow'])}</p>
     <h1>{esc(h['h1'])}</h1>
@@ -282,7 +283,7 @@ def page_home(lang):
     <div class="hero-btns"><a class="btn" href="{rel(cur, page_dir(lang,'contact'))}">{u['book']}</a>
     <a class="btn btn-ghost" href="#services">{u['nav_procedures']}</a></div>
   </div>
-  <figure class="hero-art">{hero_art(lang, cur)}{figcap}</figure>
+  {art}
 </div></section>
 <section id="services" class="wrap block"><h2 class="sec-h">{esc(h['services_h'])}</h2>
   <ul class="cards cards-4">{proc_cards(lang, '', PROCEDURES)}
