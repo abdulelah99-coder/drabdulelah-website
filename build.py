@@ -143,7 +143,7 @@ def head(lang, slug, title, desc, extra_ld=()):
 <meta property="og:locale" content="{'ar_SA' if lang=='ar' else 'en_US'}">
 <meta property="og:locale:alternate" content="{'en_US' if lang=='ar' else 'ar_SA'}">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#096174">
+<meta name="theme-color" content="#231F1B">
 <link rel="icon" href="{asset(cur,'favicon.png')}" type="image/png" sizes="64x64">
 <link rel="apple-touch-icon" href="{asset(cur,'apple-touch-icon.png')}">
 <link rel="preload" href="{asset(cur,'fonts/'+preload)}" as="font" type="font/woff2" crossorigin>
@@ -306,7 +306,7 @@ def page_about(lang):
     portrait = f'<img class="portrait about-portrait" src="{asset(cur, C.PORTRAIT)}" alt="{esc(C.NAME_AR if lang=="ar" else C.NAME_EN)}" width="800" height="1000">' if C.PORTRAIT else ""
     profile = {"@context": "https://schema.org", "@type": "ProfilePage", "url": abs_url(lang, "about"),
                "inLanguage": lang, "mainEntity": {"@id": SITE + "/#physician"}}
-    body = f"""<div class="wrap page-top">{crumbs}<h1>{esc(a['h1'])}</h1><p class="lede">{esc(a['lede'])}</p></div>
+    body = f"""<div class="page-band"><div class="wrap page-top">{crumbs}<h1>{esc(a['h1'])}</h1><p class="lede">{esc(a['lede'])}</p></div></div>
 <article class="wrap narrow prose">{portrait}{secs}{creds}</article>
 {cta_band(lang, 'about')}"""
     return head(lang, "about", a["title"], a["desc"], [bl, profile]) + header(lang, "about") + body + footer(lang, "about")
@@ -322,7 +322,7 @@ def page_proc(lang, slug):
                "reviewedBy": {"@id": SITE + "/#physician"},
                "about": {"@type": "MedicalProcedure", "name": P[slug]["en"]["schema_name"],
                          "alternateName": P[slug]["ar"]["nav"]}}
-    body = f"""<div class="wrap page-top">{crumbs}<h1>{esc(d['h1'])}</h1><p class="lede">{esc(d['lede'])}</p></div>
+    body = f"""<div class="page-band"><div class="wrap page-top">{crumbs}<h1>{esc(d['h1'])}</h1><p class="lede">{esc(d['lede'])}</p></div></div>
 <div class="wrap proc-grid">
   <aside class="facts" aria-label="{u['facts']}"><h2>{u['facts']}</h2><dl>{facts}</dl>
     <a class="btn btn-block" href="{rel(page_dir(lang, slug), page_dir(lang,'contact'))}">{u['book']}</a></aside>
@@ -368,7 +368,7 @@ if(n){{location.href='https://wa.me/'+n+'?text='+encodeURIComponent(t);return;}}
 var go=function(){{window.open(k,'_blank','noopener')||(location.href=k)}};
 if(navigator.clipboard&&navigator.clipboard.writeText){{navigator.clipboard.writeText(t).then(function(){{document.getElementById('copied').hidden=false;setTimeout(go,900)}},go)}}else go();}});}})();
 </script>"""
-    body = f"""<div class="wrap page-top">{crumbs}<h1>{c['h1']}</h1><p class="lede">{c['lede']}</p></div>
+    body = f"""<div class="page-band"><div class="wrap page-top">{crumbs}<h1>{c['h1']}</h1><p class="lede">{c['lede']}</p></div></div>
 <div class="wrap contact-grid">
   {form}
   <div class="contact-side">
